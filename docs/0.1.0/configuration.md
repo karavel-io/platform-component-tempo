@@ -1,8 +1,8 @@
 # Configuration
 
 ```hcl
-component "example" {
-  namespace = "example"
+component "tempo" {
+  namespace = "tempo"
 
   # Params default values
 

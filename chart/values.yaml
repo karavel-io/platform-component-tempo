@@ -1,4 +1,4 @@
-example:
+tempo:
   image: nginx
   tag: latest
 prometheus:
