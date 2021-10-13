@@ -37,7 +37,7 @@ compactor:
     max_block_bytes: 100_000_000       # maximum size of compacted blocks
     block_retention: 1h
     compacted_block_retention: 10m
-    chunk_size_bytes: 5 MiB
+    chunk_size_bytes: 5
 
 query_frontend:
   query_shards: 20
