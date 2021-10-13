@@ -55,9 +55,9 @@ spec:
             - name: jaeger-grpc
               containerPort: 14250
             - name: otlp-grpc
-              containerPort: 4017
+              containerPort: 4317
             - name: otlp-http
-              containerPort: 4018
+              containerPort: 4318
             - name: zipkin
               containerPort: 9411
             - name: gossip

@@ -28,10 +28,10 @@ spec:
       port: 14250
       targetPort: jaeger-grpc
     - name: otlp-grpc
-      port: 4017
+      port: 4317
       targetPort: otlp-grpc
     - name: otlp-http
-      port: 4018
+      port: 4318
       targetPort: otlp-http
     - name: zipkin
       port: 9411
