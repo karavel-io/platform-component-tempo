@@ -1,48 +1,87 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: {{ include "tempo.name" . }}
   namespace: {{ .Release.Namespace }}
   labels:
     app.kubernetes.io/name: {{ include "tempo.name" . }}
-    {{- include "tempo.labels" . | nindent 4 }}
+  {{ include "tempo.labels" . | nindent 4 }}
+  {{ with .Values.s3.iamRole }}
+  annotations:
+    iam.amazonaws.com/role: {{ . }}
+  {{ end }}
 spec:
-  replicas: 1
+  serviceName: {{ include "tempo.name" . }}-headless
+  replicas: 2
   selector:
     matchLabels:
       app.kubernetes.io/name: {{ include "tempo.name" . }}
-      {{- include "tempo.selectorLabels" . | nindent 6 }}
+  {{ include "tempo.selectorLabels" . | nindent 6 }}
   template:
     metadata:
+      name: tempo
       labels:
         app.kubernetes.io/name: {{ include "tempo.name" . }}
-        {{- include "tempo.labels" . | nindent 8 }}
+    {{ include "tempo.labels" . | nindent 8 }}
     spec:
       serviceAccountName: {{ include "tempo.name" . }}
       securityContext:
-        runAsUser: 1000
-        runAsGroup: 1000
+        fsGroup: 10001
+        runAsGroup: 10001
         runAsNonRoot: true
+        runAsUser: 10001
       containers:
         - name: tempo
-          image: "{{ .Values.tempo.image }}:{{ .Values.tempo.tag | default .Chart.AppVersion }}"
+          image: "grafana/tempo:{{ .Chart.AppVersion }}"
           imagePullPolicy: IfNotPresent
+          args:
+            - "-target=all"
+{{/*        - "-target=scalable-single-binary" enable when this feature gets released https://github.com/grafana/tempo/blob/main/CHANGELOG.md?plain=1#L17 */}}
+            - "-config.file=/etc/tempo/tempo.yaml"
+          volumeMounts:
+            - name: config
+              mountPath: /etc/tempo
+            - name: storage
+              mountPath: "/data"
           ports:
-            - name: http
-              containerPort: 80
+            - name: tempo
+              containerPort: 3200
+            - name: jaeger-compact
+              containerPort: 6831
+            - name: jaeger-binary
+              containerPort: 6832
+            - name: jaeger-http
+              containerPort: 14268
+            - name: jaeger-grpc
+              containerPort: 14250
+            - name: opentelemetry
+              containerPort: 55680
+            - name: zipkin
+              containerPort: 9411
+            - name: gossip
+              containerPort: 7946
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /
-              port: http
+              path: /ready
+              port: tempo
+            initialDelaySeconds: 45
           readinessProbe:
             httpGet:
-              path: /
-              port: http
+              path: /ready
+              port: tempo
+            initialDelaySeconds: 45
           resources:
             limits:
-              cpu: 100m
-              memory: 50Mi
+              cpu: 300m
+              memory: 512Mi
             requests:
               cpu: 100m
-              memory: 20Mi
+              memory: 128Mi
+      restartPolicy: Always
+      volumes:
+        - name: config
+          configMap:
+            name: {{ include "tempo.name" . }}
+        - name: storage
+          emptyDir: {}

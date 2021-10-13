@@ -5,14 +5,31 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     app.kubernetes.io/name: {{ include "tempo.name" . }}
-    {{- include "tempo.labels" . | nindent 4 }}
+  {{ include "tempo.labels" . | nindent 4 }}
 spec:
-  type: ClusterIP
-  ports:
-    - port: 80
-      targetPort: http
-      protocol: TCP
-      name: http
   selector:
     app.kubernetes.io/name: {{ include "tempo.name" . }}
-    {{- include "tempo.selectorLabels" . | nindent 4 }}
+  {{ include "tempo.selectorLabels" . | nindent 4 }}
+  type: ClusterIP
+  ports:
+    - name: tempo
+      port: 3200
+      targetPort: tempo
+    - name: jaeger-compact
+      port: 6831
+      targetPort: jaeger-compact
+    - name: jaeger-binary
+      port: 6832
+      targetPort: jaeger-binary
+    - name: jaeger-http
+      port: 14268
+      targetPort: jaeger-http
+    - name: jaeger-grpc
+      port: 14250
+      targetPort: jaeger-grpc
+    - name: opentelemetry
+      port: 55680
+      targetPort: opentelemetry
+    - name: zipkin
+      port: 9411
+      targetPort: zipkin

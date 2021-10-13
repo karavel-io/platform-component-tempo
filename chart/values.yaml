@@ -1,5 +1,15 @@
-tempo:
-  image: nginx
-  tag: latest
+grafana:
+  enable: true
+  namespace: ""
+
+store: filesystem  # filesystem | s3
+s3:
+  region: ""
+  bucket: ""
+  endpoint: s3.amazonaws.com
+  encrypted: true
+  insecure: false
+  pathStyle: false
+
 prometheus:
-  enable: false
+  enable: true
