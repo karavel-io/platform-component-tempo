@@ -54,8 +54,10 @@ spec:
               containerPort: 14268
             - name: jaeger-grpc
               containerPort: 14250
-            - name: opentelemetry
-              containerPort: 55680
+            - name: otlp-grpc
+              containerPort: 4017
+            - name: otlp-http
+              containerPort: 4018
             - name: zipkin
               containerPort: 9411
             - name: gossip

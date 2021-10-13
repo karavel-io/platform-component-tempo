@@ -27,9 +27,12 @@ spec:
     - name: jaeger-grpc
       port: 14250
       targetPort: jaeger-grpc
-    - name: opentelemetry
-      port: 55680
-      targetPort: opentelemetry
+    - name: otlp-grpc
+      port: 4017
+      targetPort: otlp-grpc
+    - name: otlp-http
+      port: 4018
+      targetPort: otlp-http
     - name: zipkin
       port: 9411
       targetPort: zipkin
