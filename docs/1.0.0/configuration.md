@@ -12,10 +12,10 @@ component "tempo" {
   s3 = {
     region = ""        # required, bucket region
     bucket = ""        # required, bucket name
-    endpoint = ""      # required, S3 endpoint
-    encrypted = true   # required, enable to use server-side encryption
-    insecure = false   # required, enable to skip server certificate validation
-    pathStyle = false  # required, enable to force path-style requests (eg. minio and similar providers)
+    endpoint = ""      # optional, S3 endpoint if different from the default AWS endpoint
+    encrypted = true   # optional, enable to use server-side encryption
+    insecure = false   # optional, enable to skip server certificate validation
+    pathStyle = false  # optional, enable to force path-style requests (eg. minio and similar providers)
     eksRole = ""       # optional, EKS role
     iamRole = ""       # optional, IAM role
   }
