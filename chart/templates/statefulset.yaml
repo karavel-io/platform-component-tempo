@@ -12,7 +12,7 @@ metadata:
   {{ end }}
 spec:
   serviceName: {{ include "tempo.name" . }}-headless
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app.kubernetes.io/name: {{ include "tempo.name" . }}
@@ -35,8 +35,7 @@ spec:
           image: "quay.io/karavel/tempo:{{ .Chart.AppVersion }}"
           imagePullPolicy: IfNotPresent
           args:
-            - "-target=all"
-{{/*        - "-target=scalable-single-binary" enable when this feature gets released https://github.com/grafana/tempo/blob/main/CHANGELOG.md?plain=1#L17 */}}
+            - "-target=scalable-single-binary"
             - "-config.file=/etc/tempo/tempo.yaml"
           volumeMounts:
             - name: config

@@ -73,6 +73,6 @@ memberlist:
   join_members:
     - {{ include "tempo.name" . }}-headless.{{ .Release.Namespace }}.svc.cluster.local:7946
 
-#querier:
-#  frontend_worker:
-#    frontend_address: {{ include "tempo.name" . }}:9095
+querier:
+  frontend_worker:
+    frontend_address: {{ include "tempo.name" . }}:9095
