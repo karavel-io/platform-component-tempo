@@ -32,7 +32,7 @@ spec:
         runAsUser: 10001
       containers:
         - name: tempo
-          image: "grafana/tempo:{{ .Chart.AppVersion }}"
+          image: "quay.io/karavel/tempo:{{ .Chart.AppVersion }}"
           imagePullPolicy: IfNotPresent
           args:
             - "-target=all"
