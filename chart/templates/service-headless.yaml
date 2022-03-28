@@ -19,6 +19,10 @@ spec:
       protocol: TCP
       name: gossip
       targetPort: gossip
+    - name: grpclb
+      port: 9096
+      targetPort: tempo-query
+      protocol: TCP
   selector:
     app.kubernetes.io/name: {{ include "tempo.name" . }}
   {{- include "tempo.selectorLabels" . | nindent 4 }}
