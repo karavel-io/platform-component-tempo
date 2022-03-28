@@ -23,6 +23,8 @@ spec:
       labels:
         app.kubernetes.io/name: {{ include "tempo.name" . }}
     {{ include "tempo.labels" . | nindent 8 }}
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
     spec:
       serviceAccountName: {{ include "tempo.name" . }}
       securityContext:
