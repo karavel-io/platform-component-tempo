@@ -17,6 +17,9 @@ distributor:
         http:
         grpc:
     opencensus:
+  ring:
+    kvstore:
+      store: memberlist
 
 ingester:
   trace_idle_period: 10s               # the length of time after a trace has not received spans to consider it complete and flush it
@@ -37,6 +40,9 @@ compactor:
     block_retention: 2190h             # Duration to keep blocks. 3 months
     compacted_block_retention: 10m
     chunk_size_bytes: 5
+  ring:
+    kvstore:
+      store: memberlist
 
 query_frontend:
   query_shards: 20

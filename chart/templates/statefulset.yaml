@@ -45,7 +45,7 @@ spec:
           ports:
             - name: tempo
               containerPort: 3200
-            - name: tempo-query
+            - name: grpc
               containerPort: 9095
             - name: jaeger-compact
               containerPort: 6831

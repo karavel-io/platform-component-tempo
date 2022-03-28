@@ -36,11 +36,7 @@ spec:
     - name: zipkin
       port: 9411
       targetPort: zipkin
-    - name: tempo-query
+    - name: grpc
       port: 9095
-      targetPort: tempo-query
-      protocol: TCP
-    - name: grpclb
-      port: 9096
-      targetPort: tempo-query
+      targetPort: grpc
       protocol: TCP
