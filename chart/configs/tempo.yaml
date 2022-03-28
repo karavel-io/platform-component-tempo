@@ -71,8 +71,8 @@ memberlist:
   abort_if_cluster_join_fails: false
   bind_port: 7946
   join_members:
-    - {{ include "tempo.name" . }}-headless.{{ .Release.Namespace }}.svc.cluster.local:7946
+    - {{ include "tempo.name" . }}-headless.{{ .Release.Namespace }}.svc:7946
 
 querier:
   frontend_worker:
-    frontend_address: {{ include "tempo.name" . }}:9095
+    frontend_address: {{ include "tempo.name" . }}.{{ .Release.Namespace }}.svc:9095

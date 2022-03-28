@@ -45,6 +45,8 @@ spec:
           ports:
             - name: tempo
               containerPort: 3200
+            - name: tempo-query
+              containerPort: 9095
             - name: jaeger-compact
               containerPort: 6831
             - name: jaeger-binary
